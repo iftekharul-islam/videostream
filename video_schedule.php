@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,57 +14,58 @@
         }
     </script>
 </head>
+
 <body>
-<h1>Insert Video Schedule</h1>
-<form action="insert_video_schedule.php" method="POST">
-<!--    <label for="scheduled_date">Scheduled Date:</label>-->
-<!--    <input type="date" id="scheduled_date" name="scheduled_date" required><br><br>-->
+    <h1>Insert Video Schedule</h1>
+    <form action="insert_video_schedule.php" method="POST">
+        <!--    <label for="scheduled_date">Scheduled Date:</label>-->
+        <!--    <input type="date" id="scheduled_date" name="scheduled_date" required><br><br>-->
 
-    <label for="scheduled_time">Scheduled Time:</label>
-    <input type="time" id="scheduled_time" name="scheduled_time" required><br><br>
+        <label for="scheduled_time">Scheduled Time:</label>
+        <input type="time" id="scheduled_time" name="scheduled_time" required><br><br>
 
-    <label for="video_name">Video Name:</label>
-    <select id="video_name" name="video_name" required>
-        <?php
-        $videoDir = 'videodata/';
-        if (is_dir($videoDir)) {
-            if ($dh = opendir($videoDir)) {
-                while (($file = readdir($dh)) !== false) {
-                    $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
-                    if (in_array($fileExtension, ['mp4', 'avi', 'mkv'])) { // Add your video file extensions here
-                        echo "<option value='$file'>$file</option>";
+        <label for="video_name">Video Name:</label>
+        <select id="video_name" name="video_name" required>
+            <?php
+            $videoDir = 'videodata/';
+            if (is_dir($videoDir)) {
+                if ($dh = opendir($videoDir)) {
+                    while (($file = readdir($dh)) !== false) {
+                        $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+                        if (in_array($fileExtension, ['mp4', 'avi', 'mkv'])) { // Add your video file extensions here
+                            echo "<option value='$file'>$file</option>";
+                        }
                     }
+                    closedir($dh);
                 }
-                closedir($dh);
+            } else {
+                echo "<option value=''>No videos found</option>";
             }
-        } else {
-            echo "<option value=''>No videos found</option>";
-        }
-        ?>
-    </select><br><br>
+            ?>
+        </select><br><br>
 
-    <input type="submit" value="Insert">
-</form>
+        <input type="submit" value="Insert">
+    </form>
 
-<h2>Video Schedule List</h2>
-<table border="1">
-    <tr>
-        <th>Scheduled Time</th>
-        <th>Video Name</th>
-        <th>Created At</th>
-        <th>Action</th>
-    </tr>
-    <?php
-    include 'db_connect.php';
+    <h2>Video Schedule List</h2>
+    <table border="1">
+        <tr>
+            <th>Scheduled Time</th>
+            <th>Video Name</th>
+            <th>Created At</th>
+            <th>Action</th>
+        </tr>
+        <?php
+        include 'db_connect.php';
 
-    // Fetch the schedule data from the database
-    $sql = "SELECT * FROM video_schedule ORDER BY scheduled_time ASC";
-    $result = $conn->query($sql);
+        // Fetch the schedule data from the database
+        $sql = "SELECT * FROM video_schedule ORDER BY scheduled_time ASC";
+        $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
-        // Output data of each row
-        while($row = $result->fetch_assoc()) {
-            echo "<tr>
+        if ($result->num_rows > 0) {
+            // Output data of each row
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr>
                     <td>" . $row["scheduled_time"] . "</td>
                     <td>" . $row["video_name"] . "</td>
                     <td>" . $row["created_at"] . "</td>
@@ -74,13 +76,19 @@
                         </form>
                     </td>
                   </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='3'>No schedules found</td></tr>";
         }
-    } else {
-        echo "<tr><td colspan='3'>No schedules found</td></tr>";
-    }
 
-    $conn->close();
-    ?>
-</table>
+        $conn->close();
+        ?>
+    </table>
+    <br />
+    <br />
+    <a href="index.php">
+        <input type="button" value="Back to Video">
+    </a>
 </body>
+
 </html>
