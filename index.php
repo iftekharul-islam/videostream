@@ -15,7 +15,7 @@ if (is_dir($videoDir)) {
     if ($dh = opendir($videoDir)) {
         while (($file = readdir($dh)) !== false) {
             $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
-            if (in_array($fileExtension, ['mp4', 'avi', 'mkv'])) { // Add your video file extensions here
+            if (in_array($fileExtension, ['mp4', 'avi', 'mkv'])) {
                 $videoList[] = $file;
             }
         }

@@ -18,8 +18,6 @@
 <body>
     <h1>Insert Video Schedule</h1>
     <form action="insert_video_schedule.php" method="POST">
-        <!--    <label for="scheduled_date">Scheduled Date:</label>-->
-        <!--    <input type="date" id="scheduled_date" name="scheduled_date" required><br><br>-->
 
         <label for="scheduled_time">Scheduled Time:</label>
         <input type="time" id="scheduled_time" name="scheduled_time" required><br><br>
