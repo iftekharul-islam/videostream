@@ -36,7 +36,7 @@ if (is_dir($videoDir)) {
 
 <body>
     <video id="videoPlayer" width="640" height="480" controls autoplay>
-        <source id="videoSource" src="videodata/04.mp4" type="video/mp4">
+        <source id="videoSource" src="videodata/<?php echo $videoList[0]; ?>" type="video/mp4">
         Your browser does not support the video tag.
     </video>
 
