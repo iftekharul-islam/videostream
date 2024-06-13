@@ -9,6 +9,20 @@ while ($row = $res->fetch_assoc()) {
     $list[] = $row;
 }
 
+$videoList = array();
+$videoDir = 'videodata/';
+if (is_dir($videoDir)) {
+    if ($dh = opendir($videoDir)) {
+        while (($file = readdir($dh)) !== false) {
+            $fileExtension = pathinfo($file, PATHINFO_EXTENSION);
+            if (in_array($fileExtension, ['mp4', 'avi', 'mkv'])) { // Add your video file extensions here
+                $videoList[] = $file;
+            }
+        }
+        closedir($dh);
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +40,12 @@ while ($row = $res->fetch_assoc()) {
         Your browser does not support the video tag.
     </video>
 
+    <br /><br />
+
+    <a href="video_schedule.php">
+        <input type="button" value="Video Schedule List">
+    </a>
+
     <script>
         const videosDir = 'videodata/';
         const videoPlayer = document.getElementById('videoPlayer');
@@ -39,13 +59,19 @@ while ($row = $res->fetch_assoc()) {
             var prev_time = new Date(curr_time - duration * 1000)?.getTime();
 
             var scheduledVideos = videos?.filter(video => {
-                var $videoTime = new Date(new Date().toDateString() + ' ' + video.scheduled_time)?.getTime();
-                return $videoTime <= curr_time && $videoTime >= prev_time;
+                var videoTime = new Date(new Date().toDateString() + ' ' + video.scheduled_time)?.getTime();
+                return videoTime <= curr_time && videoTime >= prev_time;
             });
+            var final_videos = "";
             if (scheduledVideos?.length > 0) {
-                return scheduledVideos[Math.floor(Math.random() * scheduledVideos?.length)]?.video_name;
+                final_videos = scheduledVideos[Math.floor(Math.random() * scheduledVideos?.length)]?.video_name;
+                console.log("Scheduled Video: ", final_videos);
+            } else {
+                var videoList = <?php echo json_encode($videoList); ?>;
+                final_videos = videoList[Math.floor(Math.random() * videoList.length)];
+                console.log("Random Video: ", final_videos);
             }
-            return videos[Math.floor(Math.random() * videos.length)].video_name;
+            return final_videos
         }
 
         function playRandomVideo() {
