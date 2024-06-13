@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="71b6d944-159c-4ed6-9a4d-8e9a9547555a" name="videostream">
+        <fileTransfer rootFolder="/var/www/html/videostream" accessType="SFTP" host="dev110.glab.ch" port="8030" sshConfigId="6d499717-f471-4f77-bf5e-6d9a93d2243f" sshConfig="dev110@dev110.glab.ch:8030 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
